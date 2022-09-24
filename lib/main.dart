@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -155,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _speech.stop();
     }
   }
-
+  //checks the text string and adds a link if needed
   void STJ() {
     Map<String, dynamic> thisisalsoamap = new Map<String, dynamic>();
     List<dynamic> averyverycreativename = [];
@@ -167,14 +168,13 @@ class _MyHomePageState extends State<MyHomePage> {
             "https://storage.googleapis.com/cms-storage-bucket/70760bf1e88b184bb1bc.png";
       }
       if (s.toLowerCase() == "math") {
-        url =
-            "https://storage.googleapis.com/cms-storage-bucket/70760bf1e88b184bb1bc.png";
+        url = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Nuvola_Math_and_Inf.svg/1200px-Nuvola_Math_and_Inf.svg.png";
       }
-      if (s.toLowerCase() == "something") {
+      if (s.toLowerCase() == "subtract") {
         url =
-            "https://storage.googleapis.com/cms-storage-bucket/70760bf1e88b184bb1bc.png";
+            "https://www.k-5mathteachingresources.com/images/Subtraction-Removal-3-Digit.png";
       }
-      if (s.toLowerCase() == "stuff") {
+      if (s.toLowerCase() == "class") {
         url =
             "https://media-exp1.licdn.com/dms/image/C560BAQEmn2W06mzK6w/company-logo_200_200/0/1572544230584?e=2147483647&v=beta&t=RDVTFDPId3rb4lGjDwnJI6_iEK28k1_BzIGD6_AsWq0";
       }

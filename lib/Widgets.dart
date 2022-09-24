@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:this_is_a_project/wahooo.dart';
-
 import 'database.dart';
 
 class taskpage extends StatelessWidget {
@@ -40,6 +38,7 @@ class taskpage extends StatelessWidget {
         });
       },
 
+
         child: Padding(
         padding: EdgeInsets.all(10.0),
     child: Container (
@@ -47,7 +46,20 @@ class taskpage extends StatelessWidget {
     color: const Color(0xffee002c), // Yellow
     height: 120.0,
     alignment: Alignment.center,
-    child: Text(this.title),
+    child: Row(
+        children: [
+          Text(this.title),
+          IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                DatabaseReference _db1 = FirebaseDatabase.instance.ref()
+                    .child('tasks')
+                    .child(title);
+                  _db1.remove();
+              }),
+        ]
+
+    ),
     )));
 
   }

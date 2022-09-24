@@ -36,7 +36,7 @@ class wahooo extends StatefulWidget {
 class wahoooState extends State<wahooo> {
   String title;
   List<dynamic> json;
-  String link;
+  String link = "";
 
   wahoooState(this.json, this.title, this.link);
 

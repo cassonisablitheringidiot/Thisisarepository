@@ -5,12 +5,32 @@ import 'package:firebase_database/firebase_database.dart';
 import 'Widgets.dart';
 
 class DatabaseHelper {
-  final List<taskpage> data = <taskpage>[];
+  List<taskpage> data = <taskpage>[];
   String title = "unamed Task";
   List<dynamic> myJson = [];
   insertTask(taskpage task) async {
     DatabaseReference _db1 = FirebaseDatabase.instance.ref();
     _db1.child('tasks').child(task.title).set(task.toMap());
+  }
+
+  void updateData(DataSnapshot i)
+  {
+
+    List<taskpage> data1 = <taskpage>[];
+    int t = 0;
+    for (DataSnapshot i in i.children) {
+      // title = event.snapshot.children.elementAt(i).value.toString();
+      print(i.children.elementAt(0).value.toString());
+
+      data1.insert(t, (taskpage(
+        i.children.elementAt(2).value.toString(),
+        i.children.elementAt(1).value.toString(),
+        i.children.elementAt(0).value.toString(),
+      )));
+      t++;
+    };
+
+    data = data1;
   }
 
   List<taskpage> getValue() {
@@ -22,16 +42,21 @@ class DatabaseHelper {
       print(x);
       data.clear();
       int t = 0;
-      for (DataSnapshot i in event.snapshot.children) {
+      updateData(event.snapshot);
+      /*for (DataSnapshot i in event.snapshot.children) {
         // title = event.snapshot.children.elementAt(i).value.toString();
+        print(i.children.elementAt(0).value.toString());
 
         data.insert(t, (taskpage(
+          i.children.elementAt(5).value.toString(),
+          i.children.elementAt(4).value.toString(),
+          i.children.elementAt(3).value.toString(),
           i.children.elementAt(2).value.toString(),
           i.children.elementAt(1).value.toString(),
           i.children.elementAt(0).value.toString(),
         )));
         t++;
-      };
+      };*/
     });
     return data; //a list of all our taskpage widgets
   }

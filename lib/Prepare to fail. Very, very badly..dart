@@ -34,6 +34,39 @@ class _lettheembarassmentcommenceState
   List<taskpage> data = [];
 
   List<dynamic> thisisalist = [];
+ //listening ofr firebase changes
+  _lettheembarassmentcommenceState() {
+    refreshNotes();
+    FirebaseDatabase.instance.ref().child("tasks").onChildChanged.listen((event) {
+      print("Data changed!");
+      refreshNotes();
+    });
+    FirebaseDatabase.instance.ref().child("tasks").onChildRemoved.listen((event) {
+      refreshNotes();
+    });
+    FirebaseDatabase.instance.ref().child("tasks").onChildAdded.listen((event) {
+      refreshNotes();
+    });
+  }
+  //refresh the taskpage array data
+  void refreshNotes() {
+  FirebaseDatabase.instance.ref().child('tasks').once().then((event) {
+  List<taskpage> notetmplist = [];
+  bool toggledelete = false;
+  for (DataSnapshot i in event.snapshot.children){
+  // title = event.snapshot.children.elementAt(i).value.toString();
+
+  setState( () => notetmplist.add(taskpage(
+  i.children.elementAt(2).value.toString(),
+  i.children.elementAt(1).value.toString(),
+  i.children.elementAt(0).value.toString()
+  )));
+  };
+  data = notetmplist;
+  });
+}
+
+
 
   @override
   void initState() {
@@ -63,6 +96,7 @@ class _lettheembarassmentcommenceState
 
   void list() async {
     setState(() => data = db.getValue());
+    print(data);
   }
 
   void thisisaloop() {
@@ -124,7 +158,7 @@ class _lettheembarassmentcommenceState
           child: Column(
 
             mainAxisAlignment: MainAxisAlignment.center,
-            children: db.getValue(),
+            children: data,
 
  /*             Padding(
                 padding: EdgeInsets.all(10.0),
