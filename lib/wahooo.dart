@@ -53,6 +53,8 @@ class wahoooState extends State<wahooo> {
   void initState() {
     SetTitle();
     SetJson();
+    print(this.json);
+
   }
 
   void SetJson() async {

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:this_is_a_project/speech_api.dart';
 import 'package:this_is_a_project/thisisafile.dart';
@@ -83,6 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Map<String, HighlightedWord> thisisamap = {};
   String url = "";
   late stt.SpeechToText _speech;
+  List<dynamic> averyverycreativename = [];
+
 
   void initState() {
     thisisamap = {
@@ -156,11 +160,56 @@ class _MyHomePageState extends State<MyHomePage> {
       _speech.stop();
     }
   }
+
+  void JSONLinkreformatter(String currentText, int index, List<dynamic> mainMap, String word, String link) {
+    Map<String, dynamic> right = new Map<String, dynamic>();
+    Map<String, dynamic> left = new Map<String, dynamic>();
+    //Split the List by the word save the components into the left
+    //and right lists
+    
+    // When creating the right list check if this right will be the end
+    // might have to create a function
+    // right["insert"] =
+    
+    // left["insert"] =
+
+    //create your middle list
+    Map<String, dynamic> middle = new Map<String, dynamic>();
+    middle["insert"] = word;
+    Map<String, dynamic> linker = new Map<String, dynamic>();
+    linker["link"] = link;
+    middle["attributes"] = linker;
+
+    if (index == 0)
+    {
+      averyverycreativename.remove(mainMap);
+      averyverycreativename.insert(0,left);
+      //is there a way to push from a certain index
+      //might have to create that
+      averyverycreativename.insert(1,middle);
+      averyverycreativename.insert(2,right);
+
+    }
+    else {
+      averyverycreativename.remove(mainMap);
+      //is there a way to push from a certain index
+      //might have to create that
+
+      averyverycreativename = averyverycreativename.sublist(0,index)  + averyverycreativename.sublist(0,3);
+      averyverycreativename.insert(index-1,left);
+      averyverycreativename.insert(index,middle);
+      //right should already be checked if its an end
+      averyverycreativename.insert(index+1,right);
+    }
+
+  }
+
   //checks the text string and adds a link if needed
   void STJ() {
     Map<String, dynamic> thisisalsoamap = new Map<String, dynamic>();
-    List<dynamic> averyverycreativename = [];
     thisisalsoamap["insert"] = this.text + "\n";
+    print(thisisalsoamap);
+
     List<String> thisisanarray = this.text.split(" ");
     for (String s in thisisanarray) {
       if (s.toLowerCase() == "word") {
@@ -178,8 +227,25 @@ class _MyHomePageState extends State<MyHomePage> {
         url =
             "https://media-exp1.licdn.com/dms/image/C560BAQEmn2W06mzK6w/company-logo_200_200/0/1572544230584?e=2147483647&v=beta&t=RDVTFDPId3rb4lGjDwnJI6_iEK28k1_BzIGD6_AsWq0";
       }
+
     }
-    averyverycreativename.insert(0, thisisalsoamap);
+
+    Map<String, dynamic> linkadd = new Map<String, dynamic>();
+    Map<String, dynamic> linker = new Map<String, dynamic>();
+    linkadd["insert"] = "edit";
+    linker["link"] = "https://YouTube.com";
+    linkadd["attributes"] = linker;
+    averyverycreativename.insert(0,linkadd);
+    //averyverycreativename.
+    //averyverycreativename.insert(1, thisisalsoamap);
+
+
+    // [{insert: Talk to }, {insert: edit, attributes: {link: https://YouTube.com}}, {insert:
+    // }]
+    // {insert: Talk to edit
+    // }
+    // [{insert: Talk to edit
+    // }, {insert: edit, attributes: {link: https://YouTube.com}}]
     Navigator.push(
         context,
         MaterialPageRoute(
