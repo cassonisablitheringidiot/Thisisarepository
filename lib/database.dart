@@ -3,14 +3,17 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'Widgets.dart';
+import'authentication.dart';
 
 class DatabaseHelper {
   List<taskpage> data = <taskpage>[];
   String title = "unamed Task";
   List<dynamic> myJson = [];
+  AuthenticationHelper authhelper = AuthenticationHelper();
   insertTask(taskpage task) async {
+
     DatabaseReference _db1 = FirebaseDatabase.instance.ref();
-    _db1.child('tasks').child(task.title).set(task.toMap());
+    _db1.child(authhelper.user.uid).child(task.title).set(task.toMap());
   }
 
   void updateData(DataSnapshot i)

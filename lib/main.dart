@@ -8,6 +8,7 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:highlight_text/highlight_text.dart';
 import 'package:page_transition/page_transition.dart';
+import 'login.dart';
 
 import 'Prepare to fail. Very, very badly..dart';
 
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
               return Text("Something went wrong.");
             } else if (snapshot.hasData) {
               print("yay");
-              return MyHomePage(title: 'Recording Page');
+              return Login();
             } else {
               return Center(child: CircularProgressIndicator());
             }

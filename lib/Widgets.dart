@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:this_is_a_project/wahooo.dart';
 import 'database.dart';
+import 'authentication.dart';
 
 class taskpage extends StatelessWidget {
   late final String title;
@@ -10,6 +11,7 @@ class taskpage extends StatelessWidget {
   late final String link;
   List<dynamic> myJson=[];
   DatabaseHelper _db = DatabaseHelper();
+  AuthenticationHelper authnumber2 = AuthenticationHelper();
   Map<String, String> toMap() {
     return {
       'title': title,
@@ -24,7 +26,7 @@ class taskpage extends StatelessWidget {
     return InkWell(
       onTap: () {
         DatabaseReference _db1 = FirebaseDatabase.instance.ref()
-            .child('tasks')
+            .child(authnumber2.user.uid)
             .child(title);
         _db1.onValue.listen((event) {
           String task = event.snapshot.children

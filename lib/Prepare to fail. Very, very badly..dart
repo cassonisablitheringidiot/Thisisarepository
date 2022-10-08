@@ -4,6 +4,7 @@ import 'package:this_is_a_project/thisisafile.dart';
 import 'package:this_is_a_project/wahooo.dart';
 import 'database.dart';
 import 'Widgets.dart';
+import'authentication.dart';
 import 'main.dart';
 import 'package:page_transition/page_transition.dart';
 class lettheembarassmentcommence extends StatefulWidget {
@@ -32,25 +33,25 @@ class _lettheembarassmentcommenceState
   String url="";
   DatabaseHelper db= DatabaseHelper();
   List<taskpage> data = [];
-
+AuthenticationHelper Auth= AuthenticationHelper();
   List<dynamic> thisisalist = [];
  //listening ofr firebase changes
   _lettheembarassmentcommenceState() {
     refreshNotes();
-    FirebaseDatabase.instance.ref().child("tasks").onChildChanged.listen((event) {
+    FirebaseDatabase.instance.ref().child(Auth.user.uid).onChildChanged.listen((event) {
       print("Data changed!");
       refreshNotes();
     });
-    FirebaseDatabase.instance.ref().child("tasks").onChildRemoved.listen((event) {
+    FirebaseDatabase.instance.ref().child(Auth.user.uid).onChildRemoved.listen((event) {
       refreshNotes();
     });
-    FirebaseDatabase.instance.ref().child("tasks").onChildAdded.listen((event) {
+    FirebaseDatabase.instance.ref().child(Auth.user.uid).onChildAdded.listen((event) {
       refreshNotes();
     });
   }
   //refresh the taskpage array data
   void refreshNotes() {
-  FirebaseDatabase.instance.ref().child('tasks').once().then((event) {
+  FirebaseDatabase.instance.ref().child(Auth.user.uid).once().then((event) {
   List<taskpage> notetmplist = [];
   bool toggledelete = false;
   for (DataSnapshot i in event.snapshot.children){
@@ -71,7 +72,7 @@ class _lettheembarassmentcommenceState
   @override
   void initState() {
     DatabaseReference _db1 = FirebaseDatabase.instance.ref();
-    var ref = _db1.child('tasks');
+    var ref = _db1.child(Auth.user.uid);
     ref.onValue.listen((event) {
       //i = 0;
       int x = event.snapshot.children.length;
