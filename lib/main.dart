@@ -161,17 +161,27 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void JSONLinkreformatter(String currentText, int index, List<dynamic> mainMap, String word, String link) {
+  void JSONLinkreformatter(String currentText, int index, Map<String, dynamic> mainMap, String word, String link) {
     Map<String, dynamic> right = new Map<String, dynamic>();
     Map<String, dynamic> left = new Map<String, dynamic>();
     //Split the List by the word save the components into the left
     //and right lists
-    
+
+
+
     // When creating the right list check if this right will be the end
     // might have to create a function
+    if (index + 1 >= averyverycreativename.length)
+    {
+        right["insert"] = currentText.split(word)[1] + '\n';
+    }
+    else {
+      right["insert"] = currentText.split(word)[1];
+    }
+
     // right["insert"] =
     
-    // left["insert"] =
+    left["insert"] = currentText.split(word)[0];
 
     //create your middle list
     Map<String, dynamic> middle = new Map<String, dynamic>();
@@ -186,8 +196,10 @@ class _MyHomePageState extends State<MyHomePage> {
       averyverycreativename.insert(0,left);
       //is there a way to push from a certain index
       //might have to create that
+      List<dynamic> temp = averyverycreativename.sublist(1, averyverycreativename.length);
       averyverycreativename.insert(1,middle);
       averyverycreativename.insert(2,right);
+      averyverycreativename = averyverycreativename + temp;
 
     }
     else {
@@ -195,11 +207,16 @@ class _MyHomePageState extends State<MyHomePage> {
       //is there a way to push from a certain index
       //might have to create that
 
-      averyverycreativename = averyverycreativename.sublist(0,index)  + averyverycreativename.sublist(0,3);
-      averyverycreativename.insert(index-1,left);
-      averyverycreativename.insert(index,middle);
-      //right should already be checked if its an end
-      averyverycreativename.insert(index+1,right);
+      averyverycreativename = averyverycreativename.sublist(0,index - 1);
+      averyverycreativename.insert(index - 1, left);
+      averyverycreativename.insert(index, middle);
+      averyverycreativename.insert(index + 1, right);
+      averyverycreativename = averyverycreativename+ averyverycreativename.sublist(index + 1,averyverycreativename.length);
+
+      // averyverycreativename.insert(index-1,left);
+      // averyverycreativename.insert(index,middle);
+      // //right should already be checked if its an end
+      // averyverycreativename.insert(index+1,right);
     }
 
   }
@@ -238,7 +255,7 @@ class _MyHomePageState extends State<MyHomePage> {
     averyverycreativename.insert(0,linkadd);
     //averyverycreativename.
     //averyverycreativename.insert(1, thisisalsoamap);
-
+    JSONLinkreformatter(this.text, 0, thisisalsoamap, "edit", "https://YouTube.com");
 
     // [{insert: Talk to }, {insert: edit, attributes: {link: https://YouTube.com}}, {insert:
     // }]
