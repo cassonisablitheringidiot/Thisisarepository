@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   double thisisntafloat = 0.15;
   bool amIstupid = true;
-  String text = "This is text so type here";
+  String text = "Welcome to AutoNote!";
   bool _isListening = false;
   List<dynamic> thisisalist = [];
   Map<String, HighlightedWord> thisisamap = {};
