@@ -161,7 +161,10 @@ class _MyHomePageState extends State<MyHomePage> {
     Map<String, dynamic> thisisalsoamap = new Map<String, dynamic>();
     List<dynamic> averyverycreativename = [];
     thisisalsoamap["insert"] = this.text + "\n";
-    List<String> thisisanarray = this.text.split(" ");
+    List<String> thisisanarray = this.text.split(" "); //take string and store each word in an array/list
+    //list = [Welcome, to, AutoNote]
+    // for i in list:
+    // print(i)
     for (String s in thisisanarray) {
       if (s.toLowerCase() == "word") {
         url =
@@ -179,7 +182,17 @@ class _MyHomePageState extends State<MyHomePage> {
             "https://media-exp1.licdn.com/dms/image/C560BAQEmn2W06mzK6w/company-logo_200_200/0/1572544230584?e=2147483647&v=beta&t=RDVTFDPId3rb4lGjDwnJI6_iEK28k1_BzIGD6_AsWq0";
       }
     }
-    averyverycreativename.insert(0, thisisalsoamap);
+
+    Map<String, dynamic> middle = new Map<String, dynamic>();
+    middle["insert"] = "hello";
+    Map<String, dynamic> linker = new Map<String, dynamic>();
+    linker["link"] = "https://www.youtube.com/watch?v=4nAbbPRkRes";
+    middle["attributes"] = linker;
+    Map<String, dynamic> end = new Map<String, dynamic>();
+    end["insert"] = "\n";
+    print(middle);
+    averyverycreativename.insert(0, middle);
+    averyverycreativename.insert(1, end);
     Navigator.push(
         context,
         MaterialPageRoute(
