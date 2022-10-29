@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:highlight_text/highlight_text.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
+import 'authentication.dart';
 
 import 'Prepare to fail. Very, very badly..dart';
 
@@ -75,6 +76,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  AuthenticationHelper auth= new AuthenticationHelper();
   int _counter = 0;
   double thisisntafloat = 0.15;
   bool amIstupid = true;
@@ -264,12 +266,21 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             IconButton(
-              icon: Icon(Icons.add_alert),
+              icon: Icon(Icons.delete),
               onPressed: () {
                 reset();
               },
             ),
-
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              auth.signOut();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            },
+          ),
           ]),
 
 
