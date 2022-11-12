@@ -10,7 +10,9 @@ import 'package:highlight_text/highlight_text.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'Prepare to fail. Very, very badly..dart';
+import 'dart:convert' as convert;
 
+import 'package:http/http.dart' as http;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -74,15 +76,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  bool _isLoading=false;
   int _counter = 0;
   double thisisntafloat = 0.15;
   bool amIstupid = true;
-  String text = "This is text so type here";
+  String text = "In geometry, two rays sharing a endpoint area an angle. The common endpoint is called the vertex, and the two rays are called the arms of the angle.";
   bool _isListening = false;
   List<dynamic> thisisalist = [];
   Map<String, HighlightedWord> thisisamap = {};
   String url = "";
   late stt.SpeechToText _speech;
+  dataLoadFunction() async {
+    setState(() {
+      _isLoading = true; // your loader has started to load
+    });
+    // fetch you data over here
+    await linkgetter();
+    STJ();
+    setState(() {
+      _isLoading = false; // your loder will stop to finish after the data fetch
+    });
+  }
 
   void initState() {
     thisisamap = {
@@ -156,43 +171,34 @@ class _MyHomePageState extends State<MyHomePage> {
       _speech.stop();
     }
   }
+  Future<String> linkgetter() async{
+    print("Hello");
+    print(text.toLowerCase());
+    var urlWeb = Uri.https('extractmathterms.marisabelchang.repl.co', '/extract/${text.toLowerCase()}', {'q': '{http}'});
+    var response = await http.get(urlWeb);
+    if (response.statusCode == 200) {
+      var jsonResponse =
+      convert.jsonDecode(response.body) as Map<String, dynamic>;
+      print(jsonResponse);
+      print(convert.jsonEncode(jsonResponse));
+      url = convert.jsonEncode(jsonResponse);
+      return url;
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+      url = "";
+      return url;
+    }
+
+
+
+  }
   //checks the text string and adds a link if needed
   void STJ() {
+
     Map<String, dynamic> thisisalsoamap = new Map<String, dynamic>();
     List<dynamic> averyverycreativename = [];
     thisisalsoamap["insert"] = this.text + "\n";
-    List<String> thisisanarray = this.text.split(" "); //take string and store each word in an array/list
-    //list = [Welcome, to, AutoNote]
-    // for i in list:
-    // print(i)
-    for (String s in thisisanarray) {
-      if (s.toLowerCase() == "word") {
-        url =
-            "https://storage.googleapis.com/cms-storage-bucket/70760bf1e88b184bb1bc.png";
-      }
-      if (s.toLowerCase() == "math") {
-        url = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Nuvola_Math_and_Inf.svg/1200px-Nuvola_Math_and_Inf.svg.png";
-      }
-      if (s.toLowerCase() == "subtract") {
-        url =
-            "https://www.k-5mathteachingresources.com/images/Subtraction-Removal-3-Digit.png";
-      }
-      if (s.toLowerCase() == "class") {
-        url =
-            "https://media-exp1.licdn.com/dms/image/C560BAQEmn2W06mzK6w/company-logo_200_200/0/1572544230584?e=2147483647&v=beta&t=RDVTFDPId3rb4lGjDwnJI6_iEK28k1_BzIGD6_AsWq0";
-      }
-    }
-
-    Map<String, dynamic> middle = new Map<String, dynamic>();
-    middle["insert"] = "hello";
-    Map<String, dynamic> linker = new Map<String, dynamic>();
-    linker["link"] = "https://www.youtube.com/watch?v=4nAbbPRkRes";
-    middle["attributes"] = linker;
-    Map<String, dynamic> end = new Map<String, dynamic>();
-    end["insert"] = "\n";
-    print(middle);
-    averyverycreativename.insert(0, middle);
-    averyverycreativename.insert(1, end);
+    averyverycreativename.insert(0, thisisalsoamap);
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -272,7 +278,8 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
               icon: Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                STJ();
+                dataLoadFunction();
+
               },
             ),
             IconButton(
@@ -291,7 +298,9 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.mic), onPressed: toggleRecording),
-        body: SingleChildScrollView(
+        body: _isLoading
+        ? CircularProgressIndicator()
+        : SingleChildScrollView(
             child: Container(
                 padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
                 child: TextHighlight(

@@ -8,6 +8,7 @@ class DatabaseHelper {
   List<taskpage> data = <taskpage>[];
   String title = "unamed Task";
   List<dynamic> myJson = [];
+
   insertTask(taskpage task) async {
     DatabaseReference _db1 = FirebaseDatabase.instance.ref();
     _db1.child('tasks').child(task.title).set(task.toMap());

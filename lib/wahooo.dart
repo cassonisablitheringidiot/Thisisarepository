@@ -12,6 +12,7 @@ import 'package:page_transition/page_transition.dart';
 
 import 'Prepare to fail. Very, very badly..dart';
 import 'database.dart';
+import 'dart:convert' as convert;
 
 class wahooo extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning
@@ -48,11 +49,23 @@ class wahoooState extends State<wahooo> {
   //DatabaseReference db= FirebaseDatabase.instance.ref().child("Thisispath").child("Hello");
   DatabaseHelper dbhelper = DatabaseHelper();
   final myController = TextEditingController();
-
+  List<linkText> textWidgetList = [];
   @override
   void initState() {
     SetTitle();
     SetJson();
+    if (this.link != "") {
+      var jsonResponse =
+      convert.jsonDecode(this.link) as Map<String, dynamic>;
+      if (jsonResponse != "") {
+        // jsonLink =
+        // jsonDecode(link) as Map<String, dynamic>;
+        jsonResponse.forEach((key, value) {
+          textWidgetList.add(
+              linkText(key, value));
+        });
+      }
+    }
   }
 
   void SetJson() async {
@@ -149,14 +162,7 @@ class wahoooState extends State<wahooo> {
           TextField(
             controller: myController,
           ),
-          Container(
-              color: Colors.black,
-              height: 120,
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                  child: Column(children: [
-                link.isNotEmpty ? Image.network(link) : Container()
-              ]))),
+
           //Add TextField widgit here, ex TextField(),
           Padding(
             child: QuillToolbar.basic(controller: thisisaquill),
@@ -166,7 +172,15 @@ class wahoooState extends State<wahooo> {
               child: Container(
             color: Colors.grey,
             child: QuillEditor.basic(controller: thisisaquill, readOnly: false),
-          ))
+          )),
+          Container(
+              color: Colors.white,
+              height: 120,
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                  child: Column(children:
+                    textWidgetList
+                  ))),
         ]));
   }
 }
