@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:this_is_a_project/main.dart';
 import 'package:this_is_a_project/thisisafile.dart';
 import 'package:this_is_a_project/wahooo.dart';
@@ -12,6 +11,10 @@ import 'package:page_transition/page_transition.dart';
 
 import 'Prepare to fail. Very, very badly..dart';
 import 'database.dart';
+
+import 'dart:convert' as convert;
+import 'package:flutter_quill/flutter_quill.dart';
+
 
 class wahooo extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning
@@ -35,25 +38,48 @@ class wahooo extends StatefulWidget {
 
 class wahoooState extends State<wahooo> {
   String title;
-  List<dynamic> json;
+  var json;
   String link = "";
 
   wahoooState(this.json, this.title, this.link);
 
+  var jsonLink;
+  var jsonLinks;
   int _counter = 0;
   QuillController thisisaquill = QuillController.basic();
   double thisisntafloat = 0.15;
   bool amIstupid = true;
 
+
   //DatabaseReference db= FirebaseDatabase.instance.ref().child("Thisispath").child("Hello");
   DatabaseHelper dbhelper = DatabaseHelper();
+  Material matHelper = Material();
   final myController = TextEditingController();
+  List<linkText> textWidgetList = []; // Here we defined a list of widget!
 
   @override
   void initState() {
     SetTitle();
     SetJson();
+    if (this.link != ""){
+      var jsonResponse =
+      convert.jsonDecode(this.link) as Map<String, dynamic>;
+      if (jsonResponse != "") {
+        // jsonLink =
+        // jsonDecode(link) as Map<String, dynamic>;
+        jsonResponse.forEach((key, value) {
+          textWidgetList.add(
+              linkText(key, value));
+        });
+    }
+
+
+
+    }
+
   }
+
+
 
   void SetJson() async {
     if (json.isEmpty) {
@@ -103,19 +129,18 @@ class wahoooState extends State<wahooo> {
     taskpage _newTask = taskpage(
         myController.text, //replace hello with myController.text
         jsonEncode(thisisaquill.document.toDelta().toJson()),
-        link);
+        this.link);
     await dbhelper.insertTask(_newTask);
   }
+
+
+
 
   @override
   //WHERE ALL THE MAGIC HAPPENS
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: uploadPage,
@@ -149,14 +174,7 @@ class wahoooState extends State<wahooo> {
           TextField(
             controller: myController,
           ),
-          Container(
-              color: Colors.black,
-              height: 120,
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                  child: Column(children: [
-                link.isNotEmpty ? Image.network(link) : Container()
-              ]))),
+
           //Add TextField widgit here, ex TextField(),
           Padding(
             child: QuillToolbar.basic(controller: thisisaquill),
@@ -166,7 +184,14 @@ class wahoooState extends State<wahooo> {
               child: Container(
             color: Colors.grey,
             child: QuillEditor.basic(controller: thisisaquill, readOnly: false),
-          ))
+          )),
+          Container(
+              color: Colors.white,
+              height: 120,
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                  child: Column(children: textWidgetList
+                  )))
         ]));
   }
 }

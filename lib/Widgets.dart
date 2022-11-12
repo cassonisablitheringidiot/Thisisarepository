@@ -4,6 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:this_is_a_project/wahooo.dart';
 import 'database.dart';
 import 'authentication.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class linkText extends StatelessWidget {
+  late String link;
+  late String name;
+  linkText(this.name, this.link);
+  Widget build(BuildContext context){
+    final Uri _url = Uri.parse(link);
+
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: InkWell(
+          child: new Text(this.name),
+          onTap: () => launchUrl(_url))
+    );
+    }
+  }
+
+
 
 class taskpage extends StatelessWidget {
   late final String title;
@@ -55,8 +74,9 @@ class taskpage extends StatelessWidget {
               icon: Icon(Icons.delete),
               onPressed: () {
                 DatabaseReference _db1 = FirebaseDatabase.instance.ref()
-                    .child('tasks')
+                    .child(authnumber2.user.uid)
                     .child(title);
+                    //need to add a UID for the refrence
                   _db1.remove();
               }),
         ]
