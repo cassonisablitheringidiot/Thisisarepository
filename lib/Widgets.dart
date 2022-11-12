@@ -74,7 +74,7 @@ class taskpage extends StatelessWidget {
               icon: Icon(Icons.delete),
               onPressed: () {
                 DatabaseReference _db1 = FirebaseDatabase.instance.ref()
-                    .child('tasks')
+                    .child(authnumber2.user.uid)
                     .child(title);
                     //need to add a UID for the refrence
                   _db1.remove();

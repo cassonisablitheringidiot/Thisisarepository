@@ -174,13 +174,7 @@ class wahoooState extends State<wahooo> {
           TextField(
             controller: myController,
           ),
-          Container(
-              color: Colors.white,
-              height: 120,
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                  child: Column(children: textWidgetList
-              ))),
+
           //Add TextField widgit here, ex TextField(),
           Padding(
             child: QuillToolbar.basic(controller: thisisaquill),
@@ -190,7 +184,14 @@ class wahoooState extends State<wahooo> {
               child: Container(
             color: Colors.grey,
             child: QuillEditor.basic(controller: thisisaquill, readOnly: false),
-          ))
+          )),
+          Container(
+              color: Colors.white,
+              height: 120,
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                  child: Column(children: textWidgetList
+                  )))
         ]));
   }
 }
